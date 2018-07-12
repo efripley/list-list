@@ -1,0 +1,80 @@
+body{
+	font-family: sans-serif;
+	margin: 0;
+}
+.current-item{
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	align-items: stretch;
+	font-size: 16px;
+	font-weight: 700;
+}
+.current-item .text{
+	padding-bottom: .5rem;
+	padding-top: .5rem;
+	padding-left: 1rem;
+	color: #fff;
+	background-color: #222;
+	border-left: 1px solid #ddd;;
+	flex-grow: 1;
+}
+.current-item .back{
+	color: #fff;
+	background-color: #222;
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	text-align: center;
+	width: 2.5rem;
+}
+.current-item .back:hover{
+	cursor: pointer;
+}
+.item{
+	margin: 0 .5rem;
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+}
+.item .text{
+	padding-bottom: .5rem;
+	padding-top: .5rem;
+	margin-left: 1rem;
+	flex-grow: 1;
+}
+.item .text:hover{
+	cursor: pointer;
+}
+.item .delete{
+	background-color: #222;
+	text-align: center;
+	width: 2rem;
+	color: #fff;
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+}
+.item .delete:hover{
+	cursor: pointer;
+}
+.form form{
+	display: flex;
+	align-items: stretch;
+}
+.form input{
+	flex-grow: 1;
+	background-color: #fff;
+	border: 4px solid #222;
+	height: 2.25rem;
+	line-height: 2.25rem;
+	border-radius: 0;
+	font-size: 14px;
+	padding: 0 .5rem;
+}
+.form button{
+	border: none;
+	border-left: 1px solid #ddd;
+	width: 2.5rem;
+	height: 2.25rem;
+	color: #fff;
+	background-color: #222;
+}
