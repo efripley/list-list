@@ -19,8 +19,18 @@ var nextItemID = parseInt(database.queryAll("meta", {
 })[0].content);
 
 var parentItem = 0;
+
 var list = document.getElementById('list');
+var back = document.getElementById('back');
+var currentItem = document.getElementById('currentItem');
+
 document.getElementById('item-form').addEventListener("submit", newItem);
+
+document.getElementById('cancel-item').onclick = function(){
+	document.getElementById('edit-screen').classList.toggle("on");
+};
+
+document.getElementById('edit-form').onsubmit = editItem;
 
 function initDatabase(){
 	if(database.isNew()){
@@ -37,8 +47,8 @@ function newItem(e){
 	e.preventDefault();
 	var text = document.getElementById('text').value;
 	if(text != ""){
-		if(text.includes('[copy')){
-			var id = text.substring(5, text.indexOf("]"));
+		if(text.includes('..copy')){
+			var id = text.substring(5, text.indexOf(".."));
 			duplicateItem(parseInt(id), parentItem);
 		}
 		else{
@@ -55,21 +65,51 @@ function newItem(e){
 	}
 }
 
+function editItem(e){
+	e.preventDefault();
+	var text = document.getElementById('currentItemText').value;
+	database.update("items", {id: parentItem}, function(row){
+		row.text = text;
+		return row;
+	});
+	database.commit();
+	document.getElementById('edit-screen').classList.toggle("on");
+	drawList();
+}
+
 function drawList(){
 	list.innerHTML = "";
 	var items = database.queryAll("items", {query: {parent: parentItem}});
 	var backItem;
 	if(parentItem == 0){
-		list.innerHTML += '<div class="current-item"><div class="back">&nbsp;</div><div class="text"></div></div>';
+		back.innerHTML = '&nbsp;';
+		back.onclick = null;
+
+		currentItem.innerHTML = '&nbsp;';
 	}
 	else{
-		backItem  = database.queryAll("items", {query: {id: parentItem}})[0];
-		list.innerHTML += '<div class="current-item"><div class="back" onclick="toParent(' + backItem.parent + ')">&nwarr;</div><div class="text">' + backItem.text + '</div></div>';
+		backItem = database.queryAll("items", {query: {id: parentItem}})[0];
+	
+		back.innerHTML = '&nwarr;'; 
+		back.onclick = function(){
+			toParent(backItem.parent);
+			document.getElementById('edit-screen').classList.remove('on');
+		}
+
+		currentItem.innerHTML = backItem.text;
 	}
+	
 	for(var a = 0; a < items.length; a++){
 		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="text" onclick="toParent(' + items[a].id + ')">' + '(' + items[a].id + ') ' + items[a].text + '</div></div>';
 	}
-	document.getElementById('text').focus();
+
+	if(document.getElementById("currentItem")){
+		document.getElementById("currentItem").onclick = function(){
+			document.getElementById('currentItemText').value = document.getElementById("currentItem").innerText;
+			document.getElementById('edit-screen').classList.toggle('on');
+			document.getElementById('currentItemText').focus();
+		}
+	}
 }
 
 function duplicateItem(_id, _parent){

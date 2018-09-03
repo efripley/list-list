@@ -7,14 +7,33 @@
 	</head>
 	
 	<body>
+		
 		<div class="screen">
-			<div id="list"></div>
+			<div class="current-item">
+				<div id="back" class="back"></div>
+				<div id="currentItem" class="text"></div>
+			</div>
+
+			<div id="edit-screen" class="edit-cmp">
+				<div class="form">
+					<form id="edit-form">
+						<input id="currentItemText" type="text">
+						<button type="button" id="cancel-item">&#10005;</button>
+						<button id="edit-item">&#10003;</button>
+					</form>
+				</div>
+			</div>
+
+			<div id="list">
+				<!--sublist items generated here-->
+			</div>
 			<div class="form">
 				<form id="item-form">
 				<input id="text" type="text" placeholder="New Item">
 				<button id="new-item">&#10133;</button>
 				</form>
 		</div>
+
 		<script src="localstoragedb.min.js"></script>
 		<script src="app.js"></script>
 	</body>

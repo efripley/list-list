@@ -57,6 +57,8 @@ body{
 	cursor: pointer;
 }
 .form form{
+	margin-bottom: 0;
+	border-bottom: 1px solid #ddd;
 	display: flex;
 	align-items: stretch;
 }
@@ -77,4 +79,10 @@ body{
 	height: 2.25rem;
 	color: #fff;
 	background-color: #222;
+}
+.edit-cmp{
+	display: none;
+}
+.edit-cmp.on{
+	display: block;
 }
