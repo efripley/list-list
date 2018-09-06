@@ -3,6 +3,7 @@
 
 navigator.serviceWorker.register('/list-list/serviceworker.js', {scope: '/list-list/'}).then(function(reg) {
   console.log('Registration succeeded. Scope is ' + reg.scope);
+	reg.update();
 }).catch(function(error) {
 	console.log('Registration failed with ' + error);
 });
