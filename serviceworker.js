@@ -2,7 +2,7 @@
 //Version 1.20180805
 self.addEventListener('install', function(event){
 	event.waitUntil(
-		caches.open('v2').then(function(cache){
+		caches.open('v3').then(function(cache){
 			return cache.addAll([
 				'/list-list/',
 				'/list-list/style.css',
@@ -12,6 +12,14 @@ self.addEventListener('install', function(event){
 			]);
 		})
 	);
+});
+self.addEventListener('activate', function(event){
+	event.waitUntil(
+		caches.keys().then(function(cacheNames){
+			caches.delete('v1');
+			caches.delete('v2');
+		})
+	)
 });
 self.addEventListener('fetch', function(event) {
   event.respondWith(

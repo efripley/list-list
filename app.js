@@ -105,7 +105,6 @@ function drawList(){
 		var textClasses = "text";
 		if(text.includes('[note]')){
 			text = text.substring(6);
-			console.log("note found", text);
 			textClasses += ' note';
 		}
 		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + items[a].id + ')">' + '(' + items[a].id + ') ' + text + '</div></div>';
