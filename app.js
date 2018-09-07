@@ -50,7 +50,6 @@ function newItem(e){
 	if(text != ""){
 		if(text.includes('[copy')){
 			var id = text.substring(5, text.indexOf("]"));
-			console.log('id:', id);
 			duplicateItem(parseInt(id), parentItem);
 		}
 		else{
@@ -102,7 +101,14 @@ function drawList(){
 	}
 	
 	for(var a = 0; a < items.length; a++){
-		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="text" onclick="toParent(' + items[a].id + ')">' + '(' + items[a].id + ') ' + items[a].text + '</div></div>';
+		var text = items[a].text;
+		var textClasses = "text";
+		if(text.includes('[note]')){
+			text = text.substring(6);
+			console.log("note found", text);
+			textClasses += ' note';
+		}
+		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + items[a].id + ')">' + '(' + items[a].id + ') ' + text + '</div></div>';
 	}
 
 	if(document.getElementById("currentItem")){

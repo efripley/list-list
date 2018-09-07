@@ -2,7 +2,7 @@
 //Version 1.20180805
 self.addEventListener('install', function(event){
 	event.waitUntil(
-		caches.open('v1').then(function(cache){
+		caches.open('v2').then(function(cache){
 			return cache.addAll([
 				'/list-list/',
 				'/list-list/style.css',

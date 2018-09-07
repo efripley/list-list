@@ -45,6 +45,9 @@ body{
 .item .text:hover{
 	cursor: pointer;
 }
+.item .text.note{
+	color: #888;
+}
 .item .delete{
 	background-color: #222;
 	text-align: center;
