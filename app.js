@@ -48,8 +48,9 @@ function newItem(e){
 	e.preventDefault();
 	var text = document.getElementById('text').value;
 	if(text != ""){
-		if(text.includes('..copy')){
-			var id = text.substring(5, text.indexOf(".."));
+		if(text.includes('[copy')){
+			var id = text.substring(5, text.indexOf("]"));
+			console.log('id:', id);
 			duplicateItem(parseInt(id), parentItem);
 		}
 		else{
@@ -123,6 +124,7 @@ function duplicateItem(_id, _parent){
 	}
 	database.commit();
 	drawList();
+	document.getElementById('text').value = "";
 }
 
 function copyItemContents(item, _parent){
