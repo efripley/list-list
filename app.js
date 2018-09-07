@@ -34,7 +34,7 @@ document.getElementById('cancel-item').onclick = function(){
 document.getElementById('edit-form').onsubmit = editItem;
 
 function initDatabase(){
-	if(database.isNew()){
+if(database.isNew()){
 		database.createTable("items", ["id", "parent", "text",]);
 		
 		database.createTable("meta", ["name", "content"]);
@@ -80,7 +80,7 @@ function editItem(e){
 
 function drawList(){
 	list.innerHTML = "";
-	var items = database.queryAll("items", {query: {parent: parentItem}});
+	var items = database.queryAll("items", {query: {parent: parentItem}, sort: [["text", "ASC"]]});
 	var backItem;
 	if(parentItem == 0){
 		back.innerHTML = '&nbsp;';
