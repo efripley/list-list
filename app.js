@@ -1,5 +1,4 @@
 //List List application code
-//Version 1.20180805
 
 navigator.serviceWorker.register('/list-list/serviceworker.js', {scope: '/list-list/'}).then(function(reg) {
   console.log('Registration succeeded. Scope is ' + reg.scope);
@@ -55,6 +54,10 @@ function newItem(e){
 		else if(text.includes('[copyinner')){
 			var id = text.substring(10, text.indexOf("]"));
 			copyInner(parseInt(id), parentItem);
+		}
+		else if(text.includes('[copyouter')){
+			var id = text.substring(10, text.indexOf("]"));
+			copyOuter(parseInt(id), parentItem);
 		}
 		else{
 			document.getElementById('text').value = "";
@@ -141,6 +144,16 @@ function copyInner(_id, _parent){
 	for(var a = 0; a < items.length; a++){
 		var tempParent = copyItemContents(items[a], _parent);
 		copyInner(items[a].id, tempParent);
+	}
+	database.commit();
+	drawList();
+	document.getElementById('text').value = "";
+}
+
+function copyOuter(_id, _parent){
+	var item = database.queryAll("items", {query: {id: _id}});
+	if(item.length > 0){
+		copyItemContents(item[0], _parent);
 	}
 	database.commit();
 	drawList();
