@@ -50,7 +50,11 @@ function newItem(e){
 	if(text != ""){
 		if(text.includes('[copyall')){
 			var id = text.substring(8, text.indexOf("]"));
-			duplicateItem(parseInt(id), parentItem);
+			copyAll(parseInt(id), parentItem);
+		}
+		else if(text.includes('[copyinner')){
+			var id = text.substring(10, text.indexOf("]"));
+			copyInner(parseInt(id), parentItem);
 		}
 		else{
 			document.getElementById('text').value = "";
@@ -119,13 +123,24 @@ function drawList(){
 	}
 }
 
-function duplicateItem(_id, _parent){
+function copyAll(_id, _parent){
 	var item = database.queryAll("items", {query: {id: _id}});
 	if(item.length > 0){
 		var tempParent = copyItemContents(item[0], _parent);
 		var items = database.queryAll("items", {query: {parent: _id}});
 		for(var a = 0; a < items.length; a++)
-			duplicateItem(items[a].id, tempParent);
+			copyAll(items[a].id, tempParent);
+	}
+	database.commit();
+	drawList();
+	document.getElementById('text').value = "";
+}
+
+function copyInner(_id, _parent){
+	var items = database.queryAll("items", {query: {parent: _id}});
+	for(var a = 0; a < items.length; a++){
+		var tempParent = copyItemContents(items[a], _parent);
+		copyInner(items[a].id, tempParent);
 	}
 	database.commit();
 	drawList();
