@@ -177,11 +177,21 @@ function deleteItem(id){
 		database.commit();
 		drawList();
 	}
-	else
-	{
-		alert("ERROR: Item can not be deleted. Delete sub-items first.");
+	else if(confirm("This item contains sub-items.\nAre you sure you want to remove the sub-items as well?")){
+		database.deleteRows("items", {id: id});
+		deleteAll(id);
+		database.commit();
+		drawList();
 	}
 }
+
+function deleteAll(_id){
+	var items = database.queryAll("items", {query: {parent: _id}});
+	for(var a = 0; a < items.length; a++){
+		deleteAll(items[a].id);
+		database.deleteRows("items", {id: items[a].id});
+	}
+}	
 
 function toParent(id){
 	parentItem = id;
