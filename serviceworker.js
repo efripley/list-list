@@ -1,5 +1,5 @@
 //List List service worker for offline application
-//Version 1.20180805
+//Version: 1.1.0
 self.addEventListener('install', function(event){
 	event.waitUntil(
 		caches.open('v1.1.0').then(function(cache){

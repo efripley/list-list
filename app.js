@@ -48,8 +48,8 @@ function newItem(e){
 	e.preventDefault();
 	var text = document.getElementById('text').value;
 	if(text != ""){
-		if(text.includes('[copy')){
-			var id = text.substring(5, text.indexOf("]"));
+		if(text.includes('[copyall')){
+			var id = text.substring(8, text.indexOf("]"));
 			duplicateItem(parseInt(id), parentItem);
 		}
 		else{
