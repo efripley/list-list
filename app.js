@@ -110,11 +110,21 @@ function drawList(){
 	for(var a = 0; a < items.length; a++){
 		var text = items[a].text;
 		var textClasses = "text";
+		var itemId = items[a].id
 		if(text.includes('[note]')){
 			text = text.substring(6);
 			textClasses += ' note';
 		}
-		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + items[a].id + ')">' + '(' + items[a].id + ') ' + text + '</div></div>';
+		else if(text.includes('[link')){
+			var id = text.substring(5, text.indexOf("]"));
+			var item = getLink(parseInt(id));
+			if(item){
+				text = getLink(parseInt(id)).text;
+				itemId = item.id;
+				textClasses += ' link';
+			}
+		}
+		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + itemId + ')">' + '(' + items[a].id + ') ' + text + '</div></div>';
 	}
 
 	if(document.getElementById("currentItem")){
@@ -170,7 +180,24 @@ function copyItemContents(item, _parent){
 	return nextItemID - 1;
 }
 
+function getLink(_id){
+	var item = database.queryAll("items", {query: {id: _id}})[0];
+	return item;
+}
+
 function deleteItem(id){
+	var item = getLink(id);
+	if(item.text.includes('[link')){
+		var linkedItem = getLink(parseInt(item.text.substring(5, item.text.indexOf(']'))));
+		if(linkedItem){
+			if(confirm('This is a link... Delete real item as well?')){
+				 if(!deleteItem(linkedItem.id)){
+					nvlog.log('item not deleted');
+					return false;
+				 }
+			}
+		}
+	}
 	var items = database.queryAll("items", {query: {parent: id}});
 	if(items.length == 0){
 		database.deleteRows("items", {id: id});
@@ -183,6 +210,10 @@ function deleteItem(id){
 		database.commit();
 		drawList();
 	}
+	else{
+		return false;
+	}
+	return true;
 }
 
 function deleteAll(_id){
