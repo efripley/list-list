@@ -20,6 +20,7 @@ self.addEventListener('activate', function(event){
 			caches.delete('v2');
 			caches.delete('v3');
 			caches.delete('v1.0.0');
+			caches.delete('v1.1.0');
 		})
 	)
 });
