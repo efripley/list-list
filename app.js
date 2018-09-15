@@ -98,7 +98,7 @@ function drawList(){
 	else{
 		backItem = database.queryAll("items", {query: {id: parentItem}})[0];
 	
-		back.innerHTML = '&nwarr;'; 
+		back.innerHTML = '&#8592;'; 
 		back.onclick = function(){
 			toParent(backItem.parent);
 			document.getElementById('edit-screen').classList.remove('on');
@@ -109,8 +109,10 @@ function drawList(){
 	
 	for(var a = 0; a < items.length; a++){
 		var text = items[a].text;
-		var textClasses = "text";
-		var itemId = items[a].id
+		var textClasses = 'text';
+		var itemId = items[a].id;
+		var itemIcon = '&nbsp;';
+		var numChilderen = database.queryAll("items", {query: {parent: items[a].id}}).length;
 		if(text.includes('[note]')){
 			text = text.substring(6);
 			textClasses += ' note';
@@ -121,10 +123,14 @@ function drawList(){
 			if(item){
 				text = getLink(parseInt(id)).text;
 				itemId = item.id;
+				itemIcon = '&#128279;';
 				textClasses += ' link';
 			}
 		}
-		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + itemId + ')">' + '(' + items[a].id + ') ' + text + '</div></div>';
+		if(numChilderen > 0){
+			itemIcon = '&#8594;';	
+		}
+		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + itemId + ')">' + '(' + items[a].id + ') ' + text + '</div><div class="icon">' + itemIcon + '</div></div>';
 	}
 
 	if(document.getElementById("currentItem")){
