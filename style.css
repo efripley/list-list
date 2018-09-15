@@ -25,6 +25,7 @@ body{
 	padding-bottom: .5rem;
 	text-align: center;
 	width: 2.5rem;
+	font-weight: 400;
 }
 .current-item .back:hover{
 	cursor: pointer;
@@ -45,8 +46,14 @@ body{
 .item .text:hover{
 	cursor: pointer;
 }
-.item .text.note{
+.item.note .text{
 	color: #888;
+}
+.item.link .icon{
+	background-color: #44a;
+}
+.item.more-items .icon{
+	background-color: #4a4;
 }
 .item .delete{
 	background-color: #222;
@@ -55,9 +62,17 @@ body{
 	color: #fff;
 	padding-top: .5rem;
 	padding-bottom: .5rem;
+
 }
 .item .delete:hover{
 	cursor: pointer;
+}
+.item .icon{
+	text-align: center;
+	width: 2rem;
+	color: #fff;
+	padding-top: .5rem;
+	padding-bottom: .5rem;
 }
 .form form{
 	margin-bottom: 0;

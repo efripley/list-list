@@ -1,8 +1,8 @@
 //List List service worker for offline application
-//Version: 1.1.0
+//Version: 1.2.0
 self.addEventListener('install', function(event){
 	event.waitUntil(
-		caches.open('v1.1.0').then(function(cache){
+		caches.open('v1.2.0').then(function(cache){
 			return cache.addAll([
 				'/list-list/',
 				'/list-list/style.css',

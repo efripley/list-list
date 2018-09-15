@@ -109,13 +109,13 @@ function drawList(){
 	
 	for(var a = 0; a < items.length; a++){
 		var text = items[a].text;
-		var textClasses = 'text';
+		var itemClasses = 'item';
 		var itemId = items[a].id;
 		var itemIcon = '&nbsp;';
 		var numChilderen = database.queryAll("items", {query: {parent: items[a].id}}).length;
 		if(text.includes('[note]')){
 			text = text.substring(6);
-			textClasses += ' note';
+			itemClasses += ' note';
 		}
 		else if(text.includes('[link')){
 			var id = text.substring(5, text.indexOf("]"));
@@ -124,13 +124,14 @@ function drawList(){
 				text = getLink(parseInt(id)).text;
 				itemId = item.id;
 				itemIcon = '&#128279;';
-				textClasses += ' link';
+				itemClasses += ' link';
 			}
 		}
 		if(numChilderen > 0){
-			itemIcon = '&#8594;';	
+			itemIcon = '&#8594;';
+			itemClasses += ' more-items';
 		}
-		list.innerHTML += '<div class="item"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="' + textClasses + '" onclick="toParent(' + itemId + ')">' + '(' + items[a].id + ') ' + text + '</div><div class="icon">' + itemIcon + '</div></div>';
+		list.innerHTML += '<div class="' + itemClasses + '"><div class="delete" onclick="deleteItem(' + items[a].id + ')">&nbsp;&#10005;&nbsp;</div><div class="text" onclick="toParent(' + itemId + ')">' + '(' + items[a].id + ') ' + text + '</div><div class="icon">' + itemIcon + '</div></div>';
 	}
 
 	if(document.getElementById("currentItem")){
